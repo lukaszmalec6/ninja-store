@@ -1,9 +1,10 @@
 import {Module} from '@nestjs/common';
 import {ConfigModule, ConfigService} from '../../config';
 import {LoggerModule, Logger} from '../logger';
-import {InjectableSymbols} from '../../injectable';
+import {InjectableSymbols} from '../injectable';
 import {Sequelize} from 'sequelize-typescript';
-import {User} from '../../user';
+import {dbModels} from './db.models';
+
 
 @Module({
   imports: [ConfigModule, LoggerModule],
@@ -22,7 +23,7 @@ import {User} from '../../user';
         database: config.get(`POSTGRES_DATABASE`),
       } as any);
       try {
-      sequelize.addModels([User]);
+      sequelize.addModels(dbModels);
       await sequelize.sync();
       logger.info(`PostgreSQL`, `Connected to database at host: ${config.get(`POSTGRES_HOST`)} port: ${config.get(`POSTGRES_PORT`)}`)
       return sequelize;

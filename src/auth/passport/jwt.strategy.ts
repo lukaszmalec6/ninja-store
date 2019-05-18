@@ -5,7 +5,7 @@ import {IJwtPayload} from '../interfaces/jwt-payload.interface';
 import {UserSerivce} from '../../user/user.service';
 import {ConfigService} from '../../config/config.service';
 import {TokenStorageService} from '../token-storage/token-storage.service';
-import {Request} from '../../request';
+import {Request} from '../../_utils/request';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       return done(new UnauthorizedException(`Your token has been revoked`), false);
     }
 
-    const user = await this.userService.get({id: payload.userId});
+    const user = await this.userService.getAuth({id: payload.userId});
     if (!user) {
       return done(new UnauthorizedException(`User not found`), false);
     }

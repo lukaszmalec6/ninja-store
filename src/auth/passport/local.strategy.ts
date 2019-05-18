@@ -4,7 +4,7 @@ import {Strategy} from 'passport-local';
 import {createHmac} from 'crypto';
 import {UserSerivce} from '../../user/user.service';
 import {JWTStrategySymbols} from './jwt.strategy.symbols';
-import {Request} from '../../request';
+import {Request} from '../../_utils/request';
 import {ConfigService} from '../../config/config.service';
 
 @Injectable()
@@ -51,7 +51,7 @@ export class LocalStrategy {
       passwordField: 'password'
     }, async (email: string, password: string, done: Function) => {
       try {
-        const user = await this.userService.get({email})
+        const user = await this.userService.getAuth({email})
         if (!user) {
           return done(new UnauthorizedException(`Email not found`), false);
         }

@@ -3,7 +3,7 @@ import {AuthGuard} from '@nestjs/passport';
 import {AuthService} from './auth.service';
 import {IToken} from './interfaces/token.interface';
 import {JWTStrategySymbols} from './passport/jwt.strategy.symbols';
-import {Request} from '../request';
+import {Request} from '../_utils/request';
 
 @Controller('auth')
 export class AuthController {
