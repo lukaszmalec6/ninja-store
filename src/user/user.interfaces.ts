@@ -13,7 +13,7 @@ export interface IUserData {
   lastName: string;
   email: string;
   password: string;
-  address: IUserAddress;
+  // address: IUserAddress;
   status?: UserStatus;
   role?: UserRole;
 }

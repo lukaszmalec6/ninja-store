@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@nestjs/common';
+import {Injectable, Inject, BadRequestException} from '@nestjs/common';
 import {User} from './user.model';
 import {IUserData, UserStatus, UserRole} from './user.interfaces'
 import {InjectableSymbols} from '../injectable';
@@ -7,16 +7,14 @@ import {InjectableSymbols} from '../injectable';
 export class UserSerivce {
   constructor(@Inject(InjectableSymbols.userRepository) private readonly userRepository: typeof User) {}
 
-  public async getByEmail(email: string): Promise<User> {
+  /*
+      Returns full user data, for server-side usage only!
+  */
+  public async get(param: {[key: string]: string}): Promise<User> {
     try {
-      return await this.userRepository.findOne({
-        where: {email},
-        attributes: {
-          exclude: ['password']
-        }
-      })
+      return await this.userRepository.findOne({where: param})
     } catch (error) {
-      throw new Error(`Can't get user profile for user: ${email}: ${error}`);
+      throw new Error(`Can't get user by param: ${JSON.stringify(param)}: ${error}`);
     }
   }
 
@@ -29,6 +27,9 @@ export class UserSerivce {
       });
       return await user.save();
     } catch (error) {
+      if (error.name === `SequelizeUniqueConstraintError`) {
+        throw new BadRequestException(`Email already in use`);
+      }
       throw new Error(`Can't save user with data ${JSON.stringify(userData)}: ${error}`);
     }
   }
