@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
-import {ConfigModule, ConfigService} from '../config';
+import {ConfigModule, ConfigService} from '../../config';
 import {LoggerModule, Logger} from '../logger';
-import {InjectableSymbols} from '../injectable';
+import {InjectableSymbols} from '../../injectable';
 import {Sequelize} from 'sequelize-typescript';
-import {User} from '../user';
+import {User} from '../../user';
 
 @Module({
   imports: [ConfigModule, LoggerModule],

@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import * as redis from 'redis';
 import * as util from 'util';
 import {RedisKeyPrefix, IRedisClient} from './interfaces/token-storage.interfaces';
-import {Logger} from '../../logger';
+import {Logger} from '../../_utils/logger';
 import {ConfigService} from '../../config';
 
 @Injectable()

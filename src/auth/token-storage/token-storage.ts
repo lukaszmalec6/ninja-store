@@ -1,7 +1,7 @@
 
 import {Module} from '@nestjs/common';
 import {TokenStorageService} from './token-storage.service';
-import {LoggerModule} from '../../logger';
+import {LoggerModule} from '../../_utils/logger';
 import {ConfigModule} from '../../config';
 
 @Module({

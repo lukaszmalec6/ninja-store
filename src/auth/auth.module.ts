@@ -4,7 +4,7 @@ import {LocalStrategy} from './passport/local.strategy';
 import {JwtStrategy} from './passport/jwt.strategy';
 import {AuthService} from './auth.service';
 import {AuthController} from './auth.controller';
-import {bodyValidator} from '../middlewares';
+import {bodyValidator} from '../_utils/middlewares';
 import {registerSchema} from './validators/register.schema';
 import {loginSchema} from './validators/login.schema';
 import {JWTStrategySymbols} from './passport/jwt.strategy.symbols';
