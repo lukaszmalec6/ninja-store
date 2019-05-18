@@ -21,10 +21,14 @@ import {User} from '../user';
         password: config.get(`POSTGRES_PASS`),
         database: config.get(`POSTGRES_DATABASE`),
       } as any);
+      try {
       sequelize.addModels([User]);
       await sequelize.sync();
       logger.info(`PostgreSQL`, `Connected to database at host: ${config.get(`POSTGRES_HOST`)} port: ${config.get(`POSTGRES_PORT`)}`)
       return sequelize;
+      } catch (error) {
+        logger.err(`PostgresQL`, `Connection error!`, error);
+      }
     }
   }],
   exports: [InjectableSymbols.db]

@@ -1,6 +1,6 @@
 
 import {Module} from '@nestjs/common';
-import {DBModule} from '../db/db.module';
+import {DBModule} from '../db';
 import {UserSerivce} from './user.service';
 import {User} from './user.model';
 import {InjectableSymbols} from '../injectable';
