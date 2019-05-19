@@ -7,10 +7,15 @@ import {User} from '../../user';
 import {Product} from '../../product';
 import {Category} from '../../category';
 import {Order} from '../../order';
+import {DbService} from './db.service';
+import {DbTestController} from './db.test.controller';
 
 @Module({
   imports: [ConfigModule, LoggerModule],
-  providers: [{
+  controllers:[DbTestController],
+  providers: [
+    DbService,
+    {
     provide: InjectableSymbols.db,
     inject: [ConfigService, Logger],
     useFactory: async (config: ConfigService, logger: Logger) => {

@@ -29,6 +29,13 @@ export class ProductModule implements NestModule {
       .apply(bodyValidator(createProductSchema))
       .forRoutes({path: `product`, method: RequestMethod.POST})
       .apply(paramValidator(productIdSchema))
-      .forRoutes(`product/:productId`)
+      .exclude(
+        {path: `product/list`, method: RequestMethod.GET}
+      )
+      .forRoutes(
+        {path: `product`, method: RequestMethod.DELETE},
+        {path: `product`, method: RequestMethod.GET}
+      )
+
   }
 }

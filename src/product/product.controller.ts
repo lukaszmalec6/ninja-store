@@ -16,6 +16,16 @@ export class ProducController {
     private readonly productService: ProductService
   ) {}
 
+  @Get(`/list`)
+  @UseGuards(AuthGuard(JWTStrategySymbols.jwt))
+  public async listProducts(
+    @Query(`page`) queryPage: number,
+    @Query(`category`) category: string | string[],
+    @Query(`name`) name: string
+  ): Promise<IGetPaginatedResponse<Product>> {
+    return this.productService.list({page: +queryPage || 1, category, name})
+  }
+
   @Post(`/`)
   @Roles(UserRole.admin)
   @UseGuards(AuthGuard(JWTStrategySymbols.jwt), RolesGuard)
@@ -37,16 +47,6 @@ export class ProducController {
   @UseGuards(AuthGuard(JWTStrategySymbols.jwt), RolesGuard)
   public async deleteProduct(@Param(`productId`) id: string): Promise<IDeleteResponse> {
     return this.productService.deleteProduct(id);
-  }
-
-  @Get(`/list`)
-  @UseGuards(AuthGuard(JWTStrategySymbols.jwt))
-  public async listProducts(
-    @Query(`page`) queryPage: number,
-    @Query(`category`) category: string | string[],
-    @Query(`name`) name: string
-  ): Promise<IGetPaginatedResponse<Product>> {
-    return this.productService.list({page: +queryPage || 1, category, name})
   }
 
 }
