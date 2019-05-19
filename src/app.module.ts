@@ -5,6 +5,7 @@ import {ProductModule} from './product';
 import {OrderModule} from './order';
 import {ScheduleModule} from './schedule';
 import {DBModule} from './_utils/db';
+import {CategoryModule} from './category';
 @Module({
   imports: [
     DBModule,
@@ -12,7 +13,8 @@ import {DBModule} from './_utils/db';
     ProductModule,
     UserModule,
     OrderModule,
-    ScheduleModule
+    ScheduleModule,
+    CategoryModule
   ],
   controllers: [],
   providers: [],

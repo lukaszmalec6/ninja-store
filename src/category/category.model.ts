@@ -6,10 +6,12 @@ import {
   DataType,
   Default,
   PrimaryKey,
-  Unique
+  Unique,
+  HasMany
 } from 'sequelize-typescript';
 
 import {Injectable} from '@nestjs/common';
+import {Product} from '../product';
 
 @Injectable()
 @Table({
@@ -27,5 +29,10 @@ export class Category extends Model<Category> {
   @Unique
   @Column
   name: string;
+
+  @HasMany(() => Product, {
+    onDelete: `CASCADE`,
+  })
+  products: Product
 
 }
