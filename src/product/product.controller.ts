@@ -7,7 +7,8 @@ import {UserRole} from '../user';
 import {AuthGuard} from '@nestjs/passport';
 import {ICreateProducData} from './product.interfaces';
 import {Product} from './product.model';
-import {IAddResponse, IDeleteResponse, IGetPaginatedResponse} from '../_utils/controller.response.interface';
+import {IAddResponse, IDeleteResponse, IGetPaginatedResponse, IGetSimpleResponse} from '../_utils/controller.response.interface';
+import {validate, ObjectSchema} from 'joi';
 
 @Controller(`product`)
 export class ProducController {
@@ -20,6 +21,15 @@ export class ProducController {
   @UseGuards(AuthGuard(JWTStrategySymbols.jwt), RolesGuard)
   public async addProduct(@Body() body: ICreateProducData): Promise<IAddResponse<Product>> {
     return this.productService.addProduct(body);
+  }
+
+  @Get(`/:productId`)
+  @UseGuards(AuthGuard(JWTStrategySymbols.jwt))
+  public async getProductDetails(@Param(`productId`) id: string): Promise<IGetSimpleResponse<Product>> {
+    return {
+      valuesCount: 1,
+      values: await this.productService.getProduct(id)
+    }
   }
 
   @Delete(`/:productId`)

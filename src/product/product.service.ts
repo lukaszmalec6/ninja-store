@@ -18,7 +18,13 @@ export class ProductService {
 
   public async getProduct(productId: string): Promise<Product> {
     try {
-      return await this.productRepository.findById(productId);
+      return await this.productRepository.scope(`list`).findOne({
+        include: [{
+          model: Category,
+          attributes: [`name`, `id`]
+        }],
+        where: {id: productId}
+      });
     } catch (error) {
       throw new Error(`Can't get product by id: ${productId}, ${error}`);
     }

@@ -12,12 +12,14 @@ import {RefreshTokenMiddleware} from './middlewares/refresh-token.middleware';
 import {ConfigModule} from '../config/config.module';
 import {UserModule} from '../user/user.module';
 import {TokenStorageModule} from './token-storage/token-storage';
+import {EmailSenderModule} from '../_utils/email-sender';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
-    TokenStorageModule
+    TokenStorageModule,
+    EmailSenderModule
   ],
   providers: [
     AuthService,

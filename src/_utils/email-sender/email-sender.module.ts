@@ -23,7 +23,7 @@ import {ConfigModule, ConfigService} from '../../config';
           },
         },
         defaults: {
-          from: 'Ninja Store',
+          from: `Ninja Store`,
         }
       })
     })],

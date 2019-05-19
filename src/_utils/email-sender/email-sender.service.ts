@@ -9,13 +9,12 @@ export class EmailSenderService {
     private readonly logger: Logger,
   ) {}
 
-  public async sendPostRegisterEmail(emailAddress: string): Promise<void> {
+  public async sendPostRegisterEmail(data: {email: string, userName: string}): Promise<void> {
     this.sendEmail({
-      to: emailAddress,
-      subject: '<post-register-email>',
+      to: data.email,
+      subject: `Welcome to Ninja Store.`,
       text: `
-        Welcome to blah blah. To finnish your registration confirm your email address 
-        by clicking on the link below.
+        Welcome to NinjaStore, ${data.userName}!
       `
     });
   }

@@ -6,6 +6,7 @@ import {UserSerivce} from '../../user/user.service';
 import {JWTStrategySymbols} from './jwt.strategy.symbols';
 import {Request} from '../../_utils/request';
 import {ConfigService} from '../../config/config.service';
+import {EmailSenderService} from '../../_utils/email-sender';
 
 @Injectable()
 export class LocalStrategy {
@@ -14,7 +15,8 @@ export class LocalStrategy {
 
   constructor(
     private readonly config: ConfigService,
-    private readonly userService: UserSerivce
+    private readonly userService: UserSerivce,
+    private readonly emailSernder: EmailSenderService
   ) {
     this.salt = this.config.get('SALT');
     this.init();
@@ -37,6 +39,7 @@ export class LocalStrategy {
         const {firstName, lastName} = req.body;
         const hash = this.generateHashedPassword(password, this.salt);
         const user = await this.userService.create({firstName, lastName, email, password: hash});
+        await this.emailSernder.sendPostRegisterEmail({email: user.email, userName: user.firstName});
         done(null, user);
       } catch (error) {
         done(error, false);

@@ -1,9 +1,19 @@
-import {Table, Column, Model, AllowNull, DataType, Default, PrimaryKey, Unique} from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  AllowNull,
+  DataType,
+  Default,
+  PrimaryKey,
+  Unique
+} from 'sequelize-typescript';
+
 import {Injectable} from '@nestjs/common';
 
 @Injectable()
 @Table({
-  tableName: 'category',
+  tableName: `category`,
   timestamps: true,
 })
 export class Category extends Model<Category> {
