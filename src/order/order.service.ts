@@ -7,6 +7,8 @@ import {User, UserSerivce} from '../user';
 import {Product} from '../product';
 import {EmailSenderService} from '../_utils/email-sender';
 import {ProductService} from '../product/product.service';
+import * as sequelize from 'sequelize';
+import {IAdminReportData, IAdminReportItem} from './order.interfaces';
 
 @Injectable()
 export class OrderService {
@@ -65,6 +67,39 @@ export class OrderService {
       });
     } catch (error) {
       throw new Error(`Can't get orders: ${error}`);
+    }
+  }
+
+  public async getAdminReportData(): Promise<IAdminReportData> {
+    try {
+      const data: IAdminReportItem[] = await this.orderRepository.sequelize.query(`
+      select 
+		    count("order"."productId") as "soldCount", 
+		    "order"."productId", 
+		    product."price" * count("order"."productId") as "moneyGained",
+		    product."name"
+	    from "order" 
+	    inner join product on product."id" = "order"."productId"
+	    where "order"."createdAt" < current_date and "order"."createdAt" > current_date - interval '1 day'
+	    group by "order"."productId", product."price", product."name"
+    `, {
+          type: sequelize.QueryTypes.SELECT,
+          raw: true
+        });
+      let bestsellers: IAdminReportItem[] = [];
+      let earningsCount = 0;
+      let totalSoldCount = 0;
+      const bestSellerCount = Math.max(...data.map(r => r.soldCount));
+      data.forEach(curr => {
+        if (+curr.soldCount === bestSellerCount) {
+          bestsellers.push(curr)
+        }
+        earningsCount += +curr.moneyGained
+        totalSoldCount += +curr.soldCount
+      })
+      return {bestsellers, earningsCount, totalSoldCount}
+    } catch (error) {
+      throw new Error(`Can't get data for admin report: ${error.message}`)
     }
   }
 }
