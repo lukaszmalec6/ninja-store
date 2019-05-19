@@ -1,7 +1,7 @@
 
 import {Injectable, UnauthorizedException, BadRequestException, NestMiddleware} from '@nestjs/common';
 import {verify} from 'jsonwebtoken';
-import {Request} from '../../request';
+import {Request} from '../../_utils/request';
 import {User} from '../../user/user.model';
 import {IJwtPayload} from '../interfaces/jwt-payload.interface';
 import {ConfigService} from '../../config/config.service';

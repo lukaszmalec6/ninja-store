@@ -5,7 +5,7 @@ export enum UserStatus {
 
 export enum UserRole {
   standard = 'standard',
-  admin = 'admmin'  
+  admin = 'admin'  
 }
 
 export interface IUserData {

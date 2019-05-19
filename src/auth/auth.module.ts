@@ -4,20 +4,22 @@ import {LocalStrategy} from './passport/local.strategy';
 import {JwtStrategy} from './passport/jwt.strategy';
 import {AuthService} from './auth.service';
 import {AuthController} from './auth.controller';
-import {bodyValidator} from '../middlewares';
-import {registerSchema} from './validators/register.schema';
-import {loginSchema} from './validators/login.schema';
+import {bodyValidator} from '../_utils/middlewares';
+import {registerSchema} from './validators';
+import {loginSchema} from './validators';
 import {JWTStrategySymbols} from './passport/jwt.strategy.symbols';
 import {RefreshTokenMiddleware} from './middlewares/refresh-token.middleware';
 import {ConfigModule} from '../config/config.module';
 import {UserModule} from '../user/user.module';
 import {TokenStorageModule} from './token-storage/token-storage';
+import {EmailSenderModule} from '../_utils/email-sender';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
-    TokenStorageModule
+    TokenStorageModule,
+    EmailSenderModule
   ],
   providers: [
     AuthService,

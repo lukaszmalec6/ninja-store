@@ -1,16 +1,24 @@
 import {Injectable, Inject, BadRequestException} from '@nestjs/common';
 import {User} from './user.model';
 import {IUserData, UserStatus, UserRole} from './user.interfaces'
-import {InjectableSymbols} from '../injectable';
+import {InjectableSymbols} from '../_utils/injectable';
 
 @Injectable()
 export class UserSerivce {
   constructor(@Inject(InjectableSymbols.userRepository) private readonly userRepository: typeof User) {}
 
   /*
-      Returns full user data, for server-side usage only!
+      Returns user auth data, for server-side usage only!
   */
-  public async get(param: {[key: string]: string}): Promise<User> {
+  public async getFull(param: {[key: string]: string}): Promise<User> {
+    try {
+      return await this.userRepository.scope(`full`).findOne({where: param})
+    } catch (error) {
+      throw new Error(`Can't get user by param: ${JSON.stringify(param)}: ${error}`);
+    }
+  }
+
+  public async getProfile(param: {[key: string]: string}): Promise<User> {
     try {
       return await this.userRepository.findOne({where: param})
     } catch (error) {

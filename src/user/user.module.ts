@@ -1,9 +1,9 @@
 
 import {Module} from '@nestjs/common';
-import {DBModule} from '../db/db.module';
+import {DBModule} from '../_utils/db';
 import {UserSerivce} from './user.service';
 import {User} from './user.model';
-import {InjectableSymbols} from '../injectable';
+import {InjectableSymbols} from '../_utils/injectable';
 
 @Module({
   imports: [DBModule],

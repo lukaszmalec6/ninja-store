@@ -2,14 +2,36 @@ import {Injectable} from '@nestjs/common';
 import * as redis from 'redis';
 import * as util from 'util';
 import {RedisKeyPrefix, IRedisClient} from './interfaces/token-storage.interfaces';
+import {Logger} from '../../_utils/logger';
+import {ConfigService} from '../../config';
 
 @Injectable()
 export class TokenStorageService {
   private readonly client: IRedisClient;
 
-  constructor() {
+  constructor(
+    private readonly logger: Logger,
+    private readonly config: ConfigService) {
     try {
-      this.client = redis.createClient();
+      this.client = redis.createClient({
+        host: config.get(`REDIS_HOST`),
+        port: config.get(`REDIS_PORT`),
+        connection_strategy: options => {
+          if (options.error && options.error.code === `ECONNREFUSED`) {
+            return new Error(`The server refused the connection`);
+          }
+          return 1000;
+        },
+        retry_strategy: options => {
+          if (options.attempt >= 1) {
+            logger.err(`Redis`, `Connection error`, options.error);
+            return new Error(`Redis unavailable`);
+          }
+          return Math.min(options.attempt * 100, 3000);
+        }
+      });
+      this.client.on(`error`, (error) => logger.err(`Redis`, `Connection error`, error));
+      this.client.on(`connect`, () => logger.info(`Redis`, `Redis storage connected on ${this.client[`address`]}`));
       this.client.get = util.promisify(this.client.get).bind(this.client);
       this.client.set = util.promisify(this.client.set).bind(this.client);
       this.client.scan = util.promisify(this.client.scan).bind(this.client);
