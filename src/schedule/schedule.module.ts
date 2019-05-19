@@ -4,11 +4,13 @@ import {ScheduleModule as NestSchedule} from 'nest-schedule';
 import {LoggerModule} from '../_utils/logger';
 import {EmailSenderModule} from '../_utils/email-sender';
 import {OrderModule} from '../order';
+import {ConfigModule} from '../config';
 @Module({
   imports: [
     LoggerModule,
     EmailSenderModule,
     OrderModule,
+    ConfigModule,
     NestSchedule.register()
   ],
   providers: [AdminDailyReport],
