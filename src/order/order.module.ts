@@ -1,4 +1,4 @@
-import {Module, NestModule, MiddlewareConsumer, RequestMethod} from '@nestjs/common';
+import {Module, NestModule, MiddlewareConsumer, RequestMethod, forwardRef} from '@nestjs/common';
 import {OrderService} from './order.service';
 import {PaginationModule} from '../_utils/pagination';
 import {InjectableSymbols} from '../_utils/injectable';
@@ -6,9 +6,17 @@ import {Order} from './order.model';
 import {bodyValidator} from '../_utils/middlewares';
 import {createOrderSchema, createOrderByAdminSchema} from './validators';
 import {OrderController} from './order.controller';
+import {EmailSenderModule} from '../_utils/email-sender';
+import {ProductModule} from '../product';
+import {UserModule} from '../user';
 
 @Module({
-  imports: [PaginationModule],
+  imports: [
+    PaginationModule,
+    EmailSenderModule,
+    ProductModule,
+    forwardRef(() => UserModule)
+  ],
   controllers: [OrderController],
   providers: [
     OrderService,

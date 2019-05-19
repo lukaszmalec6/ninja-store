@@ -16,6 +16,14 @@ export class ProductService {
     private readonly paginationService: PaginationService
   ) {}
 
+  public async getProduct(productId: string): Promise<Product> {
+    try {
+      return await this.productRepository.findById(productId);
+    } catch (error) {
+      throw new Error(`Can't get product by id: ${productId}, ${error}`);
+    }
+  }
+
   public async addProduct(data: ICreateProducData): Promise<IAddResponse<Product>> {
     try {
       const values = [await new Product(data).save()];

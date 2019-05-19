@@ -10,9 +10,9 @@ export class UserSerivce {
   /*
       Returns user auth data, for server-side usage only!
   */
-  public async getAuth(param: {[key: string]: string}): Promise<User> {
+  public async getFull(param: {[key: string]: string}): Promise<User> {
     try {
-      return await this.userRepository.scope(`auth`).findOne({where: param})
+      return await this.userRepository.scope(`full`).findOne({where: param})
     } catch (error) {
       throw new Error(`Can't get user by param: ${JSON.stringify(param)}: ${error}`);
     }

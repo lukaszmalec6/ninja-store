@@ -20,7 +20,7 @@ import {Order} from '../order';
   attributes: [`firstName`, `lastName`, `email`, `status`, `role`]
 })
 @Scopes({
-  auth: {
+  full: {
     attributes: [`password`, `id`, `email`, `firstName`, `lastName`, `status`, `role`]
   }
 })

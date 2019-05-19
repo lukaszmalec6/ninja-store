@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       return done(new UnauthorizedException(`Your token has been revoked`), false);
     }
 
-    const user = await this.userService.getAuth({id: payload.userId});
+    const user = await this.userService.getFull({id: payload.userId});
     if (!user) {
       return done(new UnauthorizedException(`User not found`), false);
     }

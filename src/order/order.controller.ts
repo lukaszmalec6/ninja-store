@@ -21,7 +21,7 @@ export class OrderController {
     @Body() body: {productId: string},
     @Req() req: Request
   ): Promise<IAddResponse<Order>> {
-    return this.orderService.addOrder({...body, userId: req.user.id});
+    return this.orderService.addOrder({...body, user: req.user});
   }
 
 

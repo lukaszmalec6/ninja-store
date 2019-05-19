@@ -51,7 +51,7 @@ export class LocalStrategy {
       passwordField: 'password'
     }, async (email: string, password: string, done: Function) => {
       try {
-        const user = await this.userService.getAuth({email})
+        const user = await this.userService.getFull({email})
         if (!user) {
           return done(new UnauthorizedException(`Email not found`), false);
         }
