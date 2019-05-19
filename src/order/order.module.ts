@@ -25,6 +25,7 @@ import {UserModule} from '../user';
       useValue: Order,
     }
   ],
+  exports: [OrderService]
 })
 export class OrderModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
