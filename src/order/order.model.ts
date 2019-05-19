@@ -1,11 +1,21 @@
-import {Table, Column, Model, AllowNull, DataType, Default, PrimaryKey, Unique, ForeignKey, BelongsTo} from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  AllowNull,
+  DataType,
+  Default,
+  PrimaryKey,
+  ForeignKey,
+  BelongsTo
+} from 'sequelize-typescript';
 import {Injectable} from '@nestjs/common';
 import {User} from '../user';
 import {Product} from '../product';
 
 @Injectable()
 @Table({
-  tableName: 'order',
+  tableName: `order`,
   timestamps: true,
 })
 export class Order extends Model<Order> {
@@ -21,14 +31,14 @@ export class Order extends Model<Order> {
   userId: string
 
   @BelongsTo(() => User, `userId`)
-  category: User
+  user: User
 
   @AllowNull(false)
   @ForeignKey(() => Product)
   @Column({type: DataType.UUID})
   productId: string
 
-  @BelongsTo(() => User, `productId`)
+  @BelongsTo(() => Product, `productId`)
   product: Product
 
 }

@@ -4,12 +4,12 @@ import {Product} from './product.model';
 import {ICreateProducData, IListProductQuery} from './product.interfaces';
 import {Category} from '../category';
 import * as sequelize from 'sequelize';
-import {PaginationService} from '../_utils/pagination/pagination.service';
-import {IGetPaginatedResponse, IDeleteResponse, IAddResponse} from 'src/_utils/controller.response.interface';
+import {PaginationService} from '../_utils/pagination';
+import {IGetPaginatedResponse, IDeleteResponse, IAddResponse} from '../_utils/controller.response.interface';
 
 @Injectable()
 export class ProductService {
-  private readonly valuesPerPage = 5;
+  private readonly itemsPerPage = 5;
 
   constructor(
     @Inject(InjectableSymbols.productRepository) private readonly productRepository: typeof Product,
@@ -40,15 +40,17 @@ export class ProductService {
 
   public async list(params: IListProductQuery): Promise<IGetPaginatedResponse<Product>> {
     const {page, category, name} = params;
-    const addCategoryFilter = Array.isArray(category) && !!category.length || !!category;
-
+    const isArrCategory = Array.isArray(category);
+    const addCategoryFilter = isArrCategory && !!category.length || !!category;
     const insertCategoryParam = () => {
-      if (Array.isArray(category) && !!category.length || !!category) {
-        return Array.isArray(category) ? category.map(c => `category=${c}`).join(`&`) : `category=${(category)}`
+      if (isArrCategory && !!category.length) {
+        return (<string[]>category).map(c => `category=${c}`).join(`&`);
+      }
+      if (!!category) {
+        return `category=${(category)}`;
       }
       return ``
     }
-
     try {
       const values = await this.productRepository.scope(`list`).findAll({
         include: [{
@@ -57,17 +59,17 @@ export class ProductService {
           where: addCategoryFilter ? {name: category} : {},
           as: `category`
         }],
-        limit: this.valuesPerPage + 1,
-        offset: (page - 1) * this.valuesPerPage,
+        limit: this.itemsPerPage + 1,
+        offset: (page - 1) * this.itemsPerPage,
         where: !!name ? {name: {[sequelize.Op.iLike]: `%${name}%`}} : {},
         order: [[`createdAt`, `DESC`]]
       });
 
       return this.paginationService.paginate<Product>({
         page,
-        url: `/product/list?${name ? `name=${name}&` : ``}${insertCategoryParam()}`,
+        url: `/product/list?${name ? `name=${name}&` : ``}${insertCategoryParam()}${isArrCategory ? `&` : ``}`,
         values,
-        itemsPerPage: this.valuesPerPage
+        itemsPerPage: this.itemsPerPage
       });
     } catch (error) {
       throw new Error(`Can't get products: ${error}`);

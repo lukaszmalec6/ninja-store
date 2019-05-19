@@ -14,13 +14,14 @@ import {
 import {Injectable} from '@nestjs/common';
 import {UserStatus, UserRole} from './user.interfaces';
 import {Order} from '../order';
+
 @Injectable()
 @DefaultScope({
   attributes: [`firstName`, `lastName`, `email`, `status`, `role`]
 })
 @Scopes({
   auth: {
-    attributes: [`password`, `id`, `email`]
+    attributes: [`password`, `id`, `email`, `firstName`, `lastName`, `status`, `role`]
   }
 })
 @Table({

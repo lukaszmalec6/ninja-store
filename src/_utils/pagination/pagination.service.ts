@@ -17,7 +17,7 @@ export class PaginationService {
       values.pop()
       return {
         valuesCount: values.length,
-        nextPage: `${this.domain}${url}&page=${page + 1}`,
+        nextPage: `${this.domain}${url}page=${page + 1}`,
         values
       };
     }

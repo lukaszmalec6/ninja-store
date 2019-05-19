@@ -8,7 +8,7 @@ import {ProducController} from './product.controller';
 import {bodyValidator} from '../_utils/middlewares';
 import {createProductSchema} from './validators';
 import {ConfigModule} from '../config';
-import {PaginationModule} from '../_utils/pagination/pagination.module';
+import {PaginationModule} from '../_utils/pagination';
 
 @Module({
   imports: [DBModule, ConfigModule, PaginationModule],

@@ -1,5 +1,6 @@
 export enum InjectableSymbols {
   db = 'db',
   userRepository = 'userRepository',
-  productRepository = 'productRepository'
+  productRepository = 'productRepository',
+  orderRepository = 'orderRepository'
 }
