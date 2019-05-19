@@ -18,6 +18,14 @@ export class UserSerivce {
     }
   }
 
+  public async getProfile(param: {[key: string]: string}): Promise<User> {
+    try {
+      return await this.userRepository.findOne({where: param})
+    } catch (error) {
+      throw new Error(`Can't get user by param: ${JSON.stringify(param)}: ${error}`);
+    }
+  }
+
   public async create(userData: IUserData): Promise<User> {
     try {
       const user = new User({

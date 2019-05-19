@@ -1,4 +1,16 @@
-import {Table, Column, Model, AllowNull, DataType, Unique, Default, PrimaryKey, HasMany, DefaultScope, Scopes} from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  AllowNull,
+  DataType,
+  Unique,
+  Default,
+  PrimaryKey,
+  HasMany,
+  DefaultScope,
+  Scopes
+} from 'sequelize-typescript';
 import {Injectable} from '@nestjs/common';
 import {UserStatus, UserRole} from './user.interfaces';
 import {Order} from '../order';

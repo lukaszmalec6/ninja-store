@@ -1,11 +1,29 @@
-import {Table, Column, Model, AllowNull, DataType, Unique, Default, PrimaryKey, ForeignKey, BelongsTo, HasMany} from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  AllowNull,
+  DataType,
+  Default,
+  PrimaryKey,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  Scopes
+} from 'sequelize-typescript';
 import {Injectable} from '@nestjs/common';
 import {Category} from '../category';
 import {Order} from '../order';
 
+
 @Injectable()
+@Scopes({
+  list: {
+    attributes: [`id`, `name`, `description`, `imageUrl`, `price`]
+  }
+})
 @Table({
-  tableName: 'product',
+  tableName: `product`,
   timestamps: true,
 })
 export class Product extends Model<Product> {
@@ -17,10 +35,14 @@ export class Product extends Model<Product> {
 
   @AllowNull(false)
   @Column
-  imageUrl: string;
+  name: string;
 
   @AllowNull(false)
   @Column
+  imageUrl: string;
+
+  @AllowNull(false)
+  @Column({type: DataType.DECIMAL(12,2)})
   price: number;
 
   @AllowNull(false)
