@@ -29,7 +29,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^8.0.0",
     "joi": "14.3.1",
-    "jsonwebtoken": "8.4.0",
+    "jsonwebtoken": "9.0.0",
     "nest-schedule": "^0.5.0",
     "nestjs-redis": "1.1.2",
     "passport": "0.4.0",
